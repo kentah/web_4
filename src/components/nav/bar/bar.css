@@ -1,0 +1,25 @@
+ul {
+  list-style: none;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  text-align: center;
+  padding: 16px;
+  text-decoration: none;
+  color: #756d8f;
+}
+
+a:focus, a:active {
+  background: grey;
+  color: white;
+}
+
+a:active a:hover {
+  font-weight: bold; 
+}
+
