@@ -14,12 +14,12 @@ li a {
   color: #756d8f;
 }
 
-a:focus, a:active {
+a:focus,
+a:active {
   background: grey;
   color: white;
 }
 
 a:active a:hover {
-  font-weight: bold; 
+  font-weight: bold;
 }
-

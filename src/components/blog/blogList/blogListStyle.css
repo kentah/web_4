@@ -1,0 +1,9 @@
+.title {
+  display: flex;
+  justify-content: left;
+  font-family: 'IM Fell English', serif;
+  /*font-family: 'Roboto Slab' serif;*/
+}
+
+.link {
+}
