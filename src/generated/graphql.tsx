@@ -29,7 +29,6 @@ export type Post = {
   title: Scalars['String'];
   body: Scalars['String'];
   ispublished: Scalars['Boolean'];
-  a_id: Scalars['ID'];
 };
 
 export type Author = {
@@ -86,7 +85,7 @@ export type CreatePostInput = {
   title: Scalars['String'];
   body: Scalars['String'];
   ispublished: Scalars['Boolean'];
-  a_id: Scalars['Float'];
+  authorId: Scalars['Int'];
 };
 
 export type CreateAuthorInput = {
@@ -99,7 +98,7 @@ export type UpdatePostInput = {
   title?: Maybe<Scalars['String']>;
   body?: Maybe<Scalars['String']>;
   ispublished?: Maybe<Scalars['Boolean']>;
-  a_id?: Maybe<Scalars['Float']>;
+  authorId: Scalars['Int'];
 };
 
 export type UpdateAuthorInput = {
@@ -115,7 +114,7 @@ export type AllPostsQuery = (
   { __typename?: 'Query' }
   & { posts: Array<(
     { __typename?: 'Post' }
-    & Pick<Post, 'id' | 'title' | 'body' | 'ispublished' | 'a_id'>
+    & Pick<Post, 'id' | 'title' | 'body' | 'ispublished'>
   )> }
 );
 
@@ -140,7 +139,6 @@ export const AllPostsDocument = gql`
     title
     body
     ispublished
-    a_id
   }
 }
     `;

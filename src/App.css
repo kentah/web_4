@@ -1,16 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap');
+
 .App {
-  background-color: #e9eff0;
-  padding-left: 0px;
-  min-height: 100vw;
+  /*background-color: #e9eff0;*/
+  padding: 10px;
+  min-height: 100vh;
+  max-height: 100vh;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.container {
+  font-family: 'Libre Baskerville', serif;
+  /*background-color: #edf0f7;*/
+  padding: 10px 20px 10px 20px;
+  /*height: 90vh;
+  width: 90%;
+  min-height: 80vh;
+  max-height: 80vh;*/
+  display: flex;
+  flex-direction: row;
 }

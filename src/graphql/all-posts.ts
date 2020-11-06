@@ -7,7 +7,6 @@ export const QUERY_ALL_POSTS = gql`
       title
       body
       ispublished
-      a_id
     }
   }
 `;

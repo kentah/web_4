@@ -1,0 +1,27 @@
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: url('../../img/main.png');
+  height: 100vh;
+  width: 100vw;
+  background-repeat: no-repeat;
+  opacity: 0.45;
+}
+
+div {
+  margin: 4px;
+}
+
+.textLeft {
+  display: inline-block;
+  position: relative;
+  background-color: white;
+  font-size: 12px;
+}
+
+.textRight {
+  display: inline-block;
+  position: relative;
+  background-color: white;
+}

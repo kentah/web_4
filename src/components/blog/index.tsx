@@ -22,7 +22,7 @@ const Blog: React.FC = () => {
 
   const { posts } = data;
   return (
-    <div className="container">
+    <div className="blogContainer">
       <ul className="blogFrame">
         {posts.map(post => {
           return <BlogList post={post} />;

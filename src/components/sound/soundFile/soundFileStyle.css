@@ -1,0 +1,61 @@
+.fileContainerFalse {
+  display: flex;
+  flex-flow: column;
+  justify-content: left;
+  align-content: center;
+  width: 400px;
+  /*height: 400px;*/
+  border: solid 0.5px;
+  border-radius: 12px;
+  font-family: 'Helvetica';
+}
+
+.fileContainerTrue {
+  display: flex;
+  flex-flow: column;
+  justify-content: left;
+  align-content: center;
+  width: 400px;
+  /*height: 400px;*/
+  border: solid 0.5px;
+  border-radius: 12px;
+  font-family: 'Helvetica';
+  color: white;
+  background-color: #4d4f4d;
+}
+
+.imgContainerFalse {
+  height: 250px;
+  width: 250px;
+}
+
+.imgContainerTrue {
+  height: 250px;
+  width: 250px;
+  filter: invert(1);
+}
+
+audio {
+  width: 100%;
+}
+
+.date {
+  font-size: 0.75em;
+  font-family: 'Helvetica';
+}
+
+.textContainer {
+  width: 75%;
+  height: 75%;
+  padding: 2px 2px;
+  overflow: 'hidden';
+}
+
+.title {
+  padding: 0;
+  font-size: 2em;
+}
+
+.about {
+  font-family: 'Helvetica';
+}

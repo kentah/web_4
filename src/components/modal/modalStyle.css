@@ -1,0 +1,18 @@
+.modalStyle {
+  background: #fff;
+  padding: 7px;
+  min-height: 200px;
+  border-radius: 12px;
+}
+
+.modalContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vh;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
