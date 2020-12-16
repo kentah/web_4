@@ -1,8 +1,16 @@
-.title {
+.postContainer {
   display: flex;
   justify-content: left;
-  font-family: 'IM Fell English', serif;
+}
+
+.title {
+  text-align: center;
+  font-size: 1em;
   /*font-family: 'Roboto Slab' serif;*/
+}
+
+.author {
+  font-size: 0.5em;
 }
 
 .link {

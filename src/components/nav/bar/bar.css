@@ -3,7 +3,7 @@
 .bar {
   font-family: 'PT Serif', serif;
   font-size: 1.5em;
-  background-color: lightslategray;
+  background-color: #949296;
 }
 
 ul {
@@ -24,7 +24,7 @@ li a {
 
 a:focus,
 a:active {
-  text-decoration: line-through;
+  text-decoration: underline;
   /*background: grey;
   color: white;*/
 }

@@ -82,7 +82,7 @@ More about some things, maybe some history.
 
 const Sound: React.FC = () => {
   const [show, setShow] = useState(false);
-  const [soundId, setSoundId] = useState();
+  const [soundId, setSoundId] = useState(0);
   const [modalContent, setModalContent] = useState<SoundFileType>({
     id: 0,
     file: '',

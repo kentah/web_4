@@ -6,11 +6,13 @@ import BlogList from './blogList';
 import './blogStyle.css';
 
 const Blog: React.FC = () => {
-  const { loading, error, data } = useAllPostsQuery();
+  const { loading, error, data } = useAllPostsQuery({
+    fetchPolicy: 'network-only',
+  });
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  //useEffect(() => {
+  //  console.log(data);
+  //}, [data]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -21,6 +23,7 @@ const Blog: React.FC = () => {
   }
 
   const { posts } = data;
+
   return (
     <div className="blogContainer">
       <ul className="blogFrame">

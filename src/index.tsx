@@ -10,6 +10,7 @@ import {
 } from '@apollo/client';
 //import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
 import { ApolloProvider as ApolloHooksProvider } from '@apollo/react-hooks';
+import { BrowserRouter as Router } from 'react-router-dom';
 import './index.css';
 import App from './App';
 
@@ -21,7 +22,9 @@ const client = new ApolloClient({
 ReactDOM.render(
   <ApolloProvider client={client}>
     <ApolloHooksProvider client={client}>
-      <App />
+      <Router>
+        <App />
+      </Router>
     </ApolloHooksProvider>
   </ApolloProvider>,
   document.getElementById('root')

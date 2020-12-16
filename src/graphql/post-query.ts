@@ -6,7 +6,15 @@ export const QUERY_GET_POST_BY_ID = gql`
       id
       title
       body
+      created_at
+      updated_at
       ispublished
+      author {
+        id
+        first_name
+        last_name
+        active
+      }
     }
   }
 `;

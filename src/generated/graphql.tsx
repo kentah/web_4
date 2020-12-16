@@ -1,7 +1,9 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K]
+};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -9,6 +11,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
+  DateTime: any;
 };
 
 export type Query = {
@@ -17,7 +21,6 @@ export type Query = {
   post: Post;
   authors: Array<Author>;
 };
-
 
 export type QueryPostArgs = {
   id: Scalars['Float'];
@@ -28,6 +31,9 @@ export type Post = {
   id: Scalars['ID'];
   title: Scalars['String'];
   body: Scalars['String'];
+  author: Author;
+  created_at: Scalars['DateTime'];
+  updated_at: Scalars['DateTime'];
   ispublished: Scalars['Boolean'];
 };
 
@@ -36,6 +42,7 @@ export type Author = {
   id: Scalars['ID'];
   first_name: Scalars['String'];
   last_name: Scalars['String'];
+  posts?: Array<Post>;
   active: Scalars['Boolean'];
 };
 
@@ -49,33 +56,27 @@ export type Mutation = {
   deleteAuthor: Scalars['Boolean'];
 };
 
-
 export type MutationCreatePostArgs = {
   data: CreatePostInput;
 };
 
-
 export type MutationCreateAuthorArgs = {
   data: CreateAuthorInput;
 };
-
 
 export type MutationUpdatePostArgs = {
   data: UpdatePostInput;
   id: Scalars['Float'];
 };
 
-
 export type MutationUpdateAuthorArgs = {
   data: UpdateAuthorInput;
   id: Scalars['Float'];
 };
 
-
 export type MutationDeletePostArgs = {
   id: Scalars['Float'];
 };
-
 
 export type MutationDeleteAuthorArgs = {
   id: Scalars['Float'];
@@ -85,7 +86,11 @@ export type CreatePostInput = {
   title: Scalars['String'];
   body: Scalars['String'];
   ispublished: Scalars['Boolean'];
-  authorId: Scalars['Int'];
+  author: AuthorInput;
+};
+
+export type AuthorInput = {
+  id: Scalars['Float'];
 };
 
 export type CreateAuthorInput = {
@@ -98,7 +103,7 @@ export type UpdatePostInput = {
   title?: Maybe<Scalars['String']>;
   body?: Maybe<Scalars['String']>;
   ispublished?: Maybe<Scalars['Boolean']>;
-  authorId: Scalars['Int'];
+  authorId?: Maybe<Scalars['Int']>;
 };
 
 export type UpdateAuthorInput = {
@@ -107,41 +112,56 @@ export type UpdateAuthorInput = {
   active?: Maybe<Scalars['Boolean']>;
 };
 
-export type AllPostsQueryVariables = Exact<{ [key: string]: never; }>;
+export type AllPostsQueryVariables = Exact<{ [key: string]: never }>;
 
-
-export type AllPostsQuery = (
-  { __typename?: 'Query' }
-  & { posts: Array<(
-    { __typename?: 'Post' }
-    & Pick<Post, 'id' | 'title' | 'body' | 'ispublished'>
-  )> }
-);
+export type AllPostsQuery = { __typename?: 'Query' } & {
+  posts: Array<
+    { __typename?: 'Post' } & Pick<
+      Post,
+      'id' | 'title' | 'body' | 'created_at' | 'updated_at' | 'ispublished'
+    > & {
+        author: { __typename?: 'Author' } & Pick<
+          Author,
+          'id' | 'first_name' | 'last_name' | 'active'
+        >;
+      }
+  >;
+};
 
 export type GetPostQueryVariables = Exact<{
   id: Scalars['Float'];
 }>;
 
-
-export type GetPostQuery = (
-  { __typename?: 'Query' }
-  & { post: (
-    { __typename?: 'Post' }
-    & Pick<Post, 'id' | 'title' | 'body' | 'ispublished'>
-  ) }
-);
-
+export type GetPostQuery = { __typename?: 'Query' } & {
+  post: { __typename?: 'Post' } & Pick<
+    Post,
+    'id' | 'title' | 'body' | 'created_at' | 'updated_at' | 'ispublished'
+  > & {
+      author: { __typename?: 'Author' } & Pick<
+        Author,
+        'id' | 'first_name' | 'last_name' | 'active'
+      >;
+    };
+};
 
 export const AllPostsDocument = gql`
-    query AllPosts {
-  posts {
-    id
-    title
-    body
-    ispublished
+  query AllPosts {
+    posts {
+      id
+      title
+      body
+      created_at
+      updated_at
+      ispublished
+      author {
+        id
+        first_name
+        last_name
+        active
+      }
+    }
   }
-}
-    `;
+`;
 
 /**
  * __useAllPostsQuery__
@@ -158,25 +178,51 @@ export const AllPostsDocument = gql`
  *   },
  * });
  */
-export function useAllPostsQuery(baseOptions?: Apollo.QueryHookOptions<AllPostsQuery, AllPostsQueryVariables>) {
-        return Apollo.useQuery<AllPostsQuery, AllPostsQueryVariables>(AllPostsDocument, baseOptions);
-      }
-export function useAllPostsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AllPostsQuery, AllPostsQueryVariables>) {
-          return Apollo.useLazyQuery<AllPostsQuery, AllPostsQueryVariables>(AllPostsDocument, baseOptions);
-        }
-export type AllPostsQueryHookResult = ReturnType<typeof useAllPostsQuery>;
-export type AllPostsLazyQueryHookResult = ReturnType<typeof useAllPostsLazyQuery>;
-export type AllPostsQueryResult = Apollo.QueryResult<AllPostsQuery, AllPostsQueryVariables>;
-export const GetPostDocument = gql`
-    query getPost($id: Float!) {
-  post(id: $id) {
-    id
-    title
-    body
-    ispublished
-  }
+export function useAllPostsQuery(
+  baseOptions?: Apollo.QueryHookOptions<AllPostsQuery, AllPostsQueryVariables>
+) {
+  return Apollo.useQuery<AllPostsQuery, AllPostsQueryVariables>(
+    AllPostsDocument,
+    baseOptions
+  );
 }
-    `;
+export function useAllPostsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    AllPostsQuery,
+    AllPostsQueryVariables
+  >
+) {
+  return Apollo.useLazyQuery<AllPostsQuery, AllPostsQueryVariables>(
+    AllPostsDocument,
+    baseOptions
+  );
+}
+export type AllPostsQueryHookResult = ReturnType<typeof useAllPostsQuery>;
+export type AllPostsLazyQueryHookResult = ReturnType<
+  typeof useAllPostsLazyQuery
+>;
+export type AllPostsQueryResult = Apollo.QueryResult<
+  AllPostsQuery,
+  AllPostsQueryVariables
+>;
+export const GetPostDocument = gql`
+  query getPost($id: Float!) {
+    post(id: $id) {
+      id
+      title
+      body
+      created_at
+      updated_at
+      ispublished
+      author {
+        id
+        first_name
+        last_name
+        active
+      }
+    }
+  }
+`;
 
 /**
  * __useGetPostQuery__
@@ -194,12 +240,25 @@ export const GetPostDocument = gql`
  *   },
  * });
  */
-export function useGetPostQuery(baseOptions?: Apollo.QueryHookOptions<GetPostQuery, GetPostQueryVariables>) {
-        return Apollo.useQuery<GetPostQuery, GetPostQueryVariables>(GetPostDocument, baseOptions);
-      }
-export function useGetPostLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPostQuery, GetPostQueryVariables>) {
-          return Apollo.useLazyQuery<GetPostQuery, GetPostQueryVariables>(GetPostDocument, baseOptions);
-        }
+export function useGetPostQuery(
+  baseOptions?: Apollo.QueryHookOptions<GetPostQuery, GetPostQueryVariables>
+) {
+  return Apollo.useQuery<GetPostQuery, GetPostQueryVariables>(
+    GetPostDocument,
+    baseOptions
+  );
+}
+export function useGetPostLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GetPostQuery, GetPostQueryVariables>
+) {
+  return Apollo.useLazyQuery<GetPostQuery, GetPostQueryVariables>(
+    GetPostDocument,
+    baseOptions
+  );
+}
 export type GetPostQueryHookResult = ReturnType<typeof useGetPostQuery>;
 export type GetPostLazyQueryHookResult = ReturnType<typeof useGetPostLazyQuery>;
-export type GetPostQueryResult = Apollo.QueryResult<GetPostQuery, GetPostQueryVariables>;
+export type GetPostQueryResult = Apollo.QueryResult<
+  GetPostQuery,
+  GetPostQueryVariables
+>;
