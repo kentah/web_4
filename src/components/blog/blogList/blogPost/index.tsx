@@ -1,6 +1,5 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import { useGetPostQuery } from '../../../../generated/graphql';
-
 
 interface Props {
   id: number;
@@ -13,11 +12,6 @@ const BlogPost: React.FC<Props> = ({ id }) => {
     },
   });
  
-  useEffect(() => {
-    console.log(`At BlogPost ${id}`)
-    console.log(data)
-  }, [data, id])
-
   return(
     <div>
       <h2>{data?.post.title}</h2>

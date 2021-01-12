@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
-import { useParams } from 'react-router';
 import { Switch, Route, RouteComponentProps } from 'react-router-dom';
 
 import Bar from './components/nav/bar';
@@ -14,13 +13,7 @@ interface RouteParams {
   id: string;
 }
 
-// tried to make compatible with pulling id from uri
-interface AppComponent extends RouteComponentProps<RouteParams> {}
-
 const App: React.FC = () => {
-  let { id } = useParams<RouteParams>();
-
-  console.log('At App', id);
   return (
     <div className="App">
       <Bar />
@@ -30,8 +23,11 @@ const App: React.FC = () => {
           <Route path="/sound" exact component={Sound} />
           <Route path="/blog" exact component={Blog} />
           <Route
+            exact
             path="/blog/:id"
-            component={() => <BlogPost id={parseInt(id)} />}
+            component={({ match }: RouteComponentProps<RouteParams>) => (
+              <BlogPost id={parseInt(match.params.id)} />
+            )}
           />
         </Switch>
       </div>
