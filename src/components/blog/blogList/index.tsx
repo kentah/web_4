@@ -21,12 +21,13 @@ const BlogList: React.FC<Props> = ({ post }) => {
   return (
     <div>
       <div className="postContainer">
-        <li className="title">
-          <Link to={`blog/${postId}`}>
-            <div>{title}</div>
+        <li>
+          <Link className="link" to={`blog/${postId}`}>
+            <div className="title">{title}</div>
             <div className="author">
-              {first_name} {last_name}
+              {first_name} {last_name} - {created_at} ~
             </div>
+            <div className="preview">{body}</div>
           </Link>
         </li>
       </div>

@@ -1,15 +1,9 @@
 .blogContainer {
   display: flex;
-  padding-top: 100px;
-  flex-direction: row;
-  flex-flow: row;
+  padding-top: 3em;
+  flex-direction: column;
+  flex-flow: column;
 }
 
 .blogFrame {
-  display: flex;
-  flex-direction: column;
-  flex-flow: column-reverse;
-  justify-content: left;
-  width: 800;
-  font-size: 35px;
 }

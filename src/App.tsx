@@ -8,6 +8,7 @@ import Home from './components/home';
 import Sound from './components/sound';
 import Blog from './components/blog';
 import BlogPost from './components/blog/blogList/blogPost';
+import Admin from './components/admin';
 
 interface RouteParams {
   id: string;
@@ -22,6 +23,7 @@ const App: React.FC = () => {
           <Route path="/" exact component={Home} />
           <Route path="/sound" exact component={Sound} />
           <Route path="/blog" exact component={Blog} />
+          <Route path="/admin" exact component={Admin} />
           <Route
             exact
             path="/blog/:id"

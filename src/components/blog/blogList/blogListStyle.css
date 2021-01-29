@@ -1,17 +1,33 @@
 .postContainer {
   display: flex;
+  flex-direction: row;
   justify-content: left;
 }
 
 .title {
-  text-align: center;
-  font-size: 1em;
-  /*font-family: 'Roboto Slab' serif;*/
+  font-size: 2em;
+  color: rgba(41, 35, 34, 1);
+  margin-bottom: 0.2em;
+  font-family: 'Anonymous Pro', monospace;
+  font-weight: 700;
 }
 
 .author {
-  font-size: 0.5em;
+  font-size: 0.75em;
+  font-family: 'Anonymous Pro', monospace;
+  font-weight: 400;
+}
+
+.preview {
+  font-family: 'Anonymous Pro', monospace;
+  width: 10em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  font-size: 1em;
 }
 
 .link {
+  text-decoration: none;
+  /*box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);*/
 }
