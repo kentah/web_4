@@ -1,13 +1,17 @@
-/* TODO: consumer unable to parse values. Delete consumer and (values: IFormContext)
- * if needed. Start and end JSX at the div
+/* TODO: clear form upon submit
  */
 import React, { useContext } from 'react';
-import { IErrors, IFormContext, FormContext, IFormState } from './form';
+import { IErrors, IValues, FormContext, IFormContext } from './form';
 
 import { Row, FieldContainer, Input, TextArea } from './field.style';
 
 // available editors for the field
 type Editor = 'textbox' | 'multilinetextbox' | 'dropdown';
+
+export interface IValidation {
+  rule: (values: IValues, fieldName: string, args: any) => string;
+  args?: any;
+}
 
 export interface IFieldProps {
   id: string;
@@ -15,6 +19,7 @@ export interface IFieldProps {
   editor?: Editor;
   options?: string[];
   value?: any;
+  validation?: IValidation;
 }
 
 export const Field: React.FC<IFieldProps> = ({
@@ -24,68 +29,72 @@ export const Field: React.FC<IFieldProps> = ({
   options,
   value,
 }) => {
-  const { values, setValues } = useContext(FormContext);
+  const { values, setValues, validate, errors } = useContext(FormContext);
+
+  const getError = (errors: IErrors): string => (errors ? errors[id] : '');
+
+  const getEditorStyle = (errors: IErrors): any =>
+    getError(errors) ? { borderColor: 'red' } : {};
+
+  const renderError = (errors: IErrors) =>
+    getError(errors) && (
+      <div style={{ color: 'red', fontSize: '80%' }}>
+        <p>{getError(errors)}</p>
+      </div>
+    );
 
   return (
     <FieldContainer>
-      {/* <FormContext.Consumer> */}
-      <Row>
-        {label && <label htmlFor={id}>{label}</label>}
-        {editor!.toLowerCase() === 'textbox' && (
-          <Input
-            id={id}
-            type="text"
-            value={value}
-            onChange={(e: React.FormEvent<HTMLInputElement>) =>
-              //context?.setValues({ [id]: e.currentTarget.value })
-              setValues({ ...values, [id]: e.currentTarget.value })
-            }
-            onBlur={
-              (e: React.FormEvent<HTMLInputElement>) => null
-              /* TODO: validate field value */
-            }
-          />
-        )}
+      <FormContext.Consumer>
+        {(_: IFormContext) => (
+          <Row>
+            {label && <label htmlFor={id}>{label}</label>}
+            {editor!.toLowerCase() === 'textbox' && (
+              <Input
+                id={id}
+                type="text"
+                value={value}
+                onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                  setValues({ ...values, [id]: e.currentTarget.value })
+                }
+                onBlur={() => validate(id)}
+                style={getEditorStyle(errors)}
+              />
+            )}
 
-        {editor!.toLowerCase() === 'multilinetextbox' && (
-          <TextArea
-            id={id}
-            value={value}
-            onChange={(e: React.FormEvent<HTMLTextAreaElement>) =>
-              //context?.setValues({ [id]: e.currentTarget.value })
-              setValues({ ...values, [id]: e.currentTarget.value })
-            }
-            onBlur={
-              (e: React.FormEvent<HTMLTextAreaElement>) => null
-              /* TODO: validate field value */
-            }
-          />
-        )}
+            {editor!.toLowerCase() === 'multilinetextbox' && (
+              <TextArea
+                id={id}
+                value={value}
+                onChange={(e: React.FormEvent<HTMLTextAreaElement>) =>
+                  setValues({ ...values, [id]: e.currentTarget.value })
+                }
+                onBlur={() => validate(id)}
+                style={getEditorStyle(errors)}
+              />
+            )}
 
-        {editor!.toLowerCase() === 'dropdown' && (
-          <select
-            id={id}
-            value={value}
-            onChange={(e: React.FormEvent<HTMLSelectElement>) =>
-              //context?.setValues({ [id]: e.currentTarget.value })
-              setValues({ ...values, [id]: e.currentTarget.value })
-            }
-            onBlur={
-              (e: React.FormEvent<HTMLSelectElement>) => null
-              /* TODO: validate field value */
-            }
-          >
-            {options &&
-              options.map(option => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-          </select>
+            {editor!.toLowerCase() === 'dropdown' && (
+              <select
+                id={id}
+                value={value}
+                onChange={(e: React.FormEvent<HTMLSelectElement>) =>
+                  setValues({ ...values, [id]: e.currentTarget.value })
+                }
+                onBlur={() => validate(id)}
+              >
+                {options &&
+                  options.map(option => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+              </select>
+            )}
+            {renderError(errors)}
+          </Row>
         )}
-        {/* TODO - display validation errors */}
-      </Row>
-      {/*</FormContext.Consumer> */}
+      </FormContext.Consumer>
     </FieldContainer>
   );
 };

@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import { CreatePostInput } from '../generated/graphql';
 
 export const MUTATION_CREATE_POST = gql`
   mutation makePost($title: String!, $body: String!, $ispublished: Boolean!) {
@@ -14,3 +15,11 @@ export const MUTATION_CREATE_POST = gql`
     }
   }
 `;
+
+//export const MUTATION_CREATE_POST = gql`
+//  mutation createPost($post: CreatePostInput!) {
+//    createPost(data: $post) {
+//      title
+//    }
+//  }
+//`;

@@ -1,22 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Form, Field } from '../../util/form';
+import { IFields, required, maxLength, FormRole } from '../../util/form/form';
+//import { ParseForm } from '../createPostUtil';
 
-const BlogForm: React.SFC = () => {
+const BlogForm: React.FC = () => {
+  const fields: IFields = {
+    title: {
+      id: 'title',
+      label: 'Title',
+      editor: 'textbox',
+      validation: { rule: required },
+    },
+    body: {
+      id: 'body',
+      label: 'Body',
+      editor: 'multilinetextbox',
+      validation: { rule: required },
+    },
+    published: {
+      id: 'published',
+      label: 'Published',
+      editor: 'dropdown',
+      options: ['yes', 'no'],
+    },
+  };
+
   return (
     <div>
       Blog Form
       <Form
+        role={FormRole.ADMIN_BLOG}
+        fields={fields}
         action=""
         render={() => (
           <>
-            <Field id="title" label="title" editor="textbox" />
-            <Field id="body" label="body" editor="multilinetextbox" />
-            <Field
-              id="published"
-              label="published"
-              editor="dropdown"
-              options={['yes', 'no']}
-            />
+            <Field {...fields.title} />
+            <Field {...fields.body} />
+            <Field {...fields.published} />
           </>
         )}
       />
