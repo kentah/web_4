@@ -7,6 +7,7 @@ import { Row, FieldContainer, Input, TextArea } from './field.style';
 
 // available editors for the field
 type Editor = 'textbox' | 'multilinetextbox' | 'dropdown';
+type SelectSelected = 'selected' | 'none';
 
 export interface IValidation {
   rule: (values: IValues, fieldName: string, args: any) => string;
@@ -18,6 +19,7 @@ export interface IFieldProps {
   label?: string;
   editor?: Editor;
   options?: string[];
+  //default?: SelectSelected
   value?: any;
   validation?: IValidation;
 }
@@ -85,7 +87,7 @@ export const Field: React.FC<IFieldProps> = ({
               >
                 {options &&
                   options.map(option => (
-                    <option key={option} value={option}>
+                    <option key={option} value={option} /*selected={default}*/>
                       {option}
                     </option>
                   ))}

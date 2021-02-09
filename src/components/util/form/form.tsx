@@ -85,6 +85,13 @@ export const maxLength = (
     ? `This can not exceed ${length} characters`
     : '';
 
+/**
+ * Renders form
+ * @param {Renderable} render - Rect.Node rendered from parent template
+ * @param {IFields} fields - fields desired for form from parent template
+ * @param {string} action - http string to post to
+ * @param {FormRole} role - enum value used to render correct type of form
+ **/
 export const Form: React.FC<IFormProps> = ({
   render,
   fields,
