@@ -1,37 +1,37 @@
-import React, { useState } from 'react';
-import {
-  useMakePostMutation,
-  Author,
-  CreatePostInput,
-} from '../../../generated/graphql';
-import { IFormState, IValues } from './form';
-import { useMutation } from '@apollo/react-hooks';
+import { useMakePostMutation } from '../../../generated/graphql';
+import { IFormState, IValues, IErrors } from './form';
 
 interface ParseFormProps extends IFormState {
-  //values: IValues;
+  values: IValues;
+  errors: IErrors;
 }
 
 export interface BlogData {
   title: string;
   body: string;
   ispublished: boolean;
-  //author: Author;
 }
 
-export const ParseForm: React.FC<ParseFormProps> = ({ values, errors }) => {
-  //const [createPost, { loading, error }] = useMutation(useMakePostMutation);
-  const { title, body, published } = values;
+const [makePost, { error, data }] = useMakePostMutation({
+  variables: {
+    title: '',
+    body: '',
+    ispublished: false,
+  },
+});
 
-  const post: CreatePostInput = {
-    title: title,
-    body: body,
-    ispublished: published,
-    author: {
-      id: 1,
-    },
-  };
+export const CreatePost = async (values: IValues) => {
+  const { title, body, ispublished } = values;
 
-  //useMakePostMutation({ title, body, published });
-  console.log('from createPostUtil', post);
-  return null;
+  try {
+    await makePost({
+      variables: {
+        title,
+        body,
+        ispublished: false,
+      },
+    });
+  } catch (error) {
+    console.log('Error: ', error);
+  }
 };

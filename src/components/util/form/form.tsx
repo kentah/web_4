@@ -3,7 +3,13 @@ import React, { createContext, useState } from 'react';
 import { IFieldProps } from './field';
 
 import { FormContainer, Button } from './form.style';
-import { ParseForm } from './createPostUtil';
+//import { CreatePost } from './createPostUtil';
+import { MUTATION_CREATE_POST } from '../../../graphql/create-post-mutation';
+import {
+  MakePostMutationVariables,
+  useMakePostMutation,
+} from '../../../generated/graphql';
+import { useMutation } from '@apollo/react-hooks';
 
 type Renderable = React.ReactNode | React.ReactElement | React.ReactChild;
 
@@ -101,9 +107,15 @@ export const Form: React.FC<IFormProps> = ({
   const [values, setValues] = useState<IValues>([]);
   const [errors, setErrors] = useState<IErrors>({});
   const [submitSuccess, setSubmitSuccess] = useState<Boolean>();
+  const [makePost, { error, data }] = useMakePostMutation({
+    variables: {
+      title: '',
+      body: '',
+      ispublished: false,
+    },
+  });
 
   const validate = (fieldName: string): string => {
-    console.log('validate()');
     let newError: string = '';
 
     if (fields[fieldName] && fields[fieldName].validation) {
@@ -120,9 +132,7 @@ export const Form: React.FC<IFormProps> = ({
   };
 
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
-    console.log('handleSubmit');
     e.preventDefault();
-    ParseForm({ values, errors });
     if (validateForm()) {
       const scc: boolean = await submitForm();
       console.log('scc', scc);
@@ -134,11 +144,30 @@ export const Form: React.FC<IFormProps> = ({
     Object.keys(fields).map((fieldName: string) => {
       errors[fieldName] = validate(fieldName);
     });
-    console.log('validateForm');
     setErrors(errors);
-    console.log('validtateForm errors', errors);
-    console.log('validtateForm hasErrors(errors)', hasErrors(errors));
     return hasErrors(errors);
+  };
+
+  const clearForm = () => {
+    setValues([]);
+    setErrors({});
+    console.log('Form cleared');
+  };
+
+  const createPost = async () => {
+    const { title, body, ispublished } = values;
+    try {
+      await makePost({
+        variables: {
+          title,
+          body,
+          ispublished: true,
+        },
+      });
+      clearForm();
+    } catch (error) {
+      console.log('Error: ', error);
+    }
   };
 
   const submitForm = async (): Promise<boolean> => {
@@ -146,7 +175,7 @@ export const Form: React.FC<IFormProps> = ({
     switch (role) {
       case FormRole.ADMIN_BLOG:
         console.log('AdminBlog');
-        ParseForm({ values, errors });
+        createPost();
         return true;
       case FormRole.LOGIN:
         console.log('login');
@@ -176,7 +205,9 @@ export const Form: React.FC<IFormProps> = ({
 
   return (
     <FormContainer>
-      <FormContext.Provider value={{ values, setValues, errors, validate }}>
+      <FormContext.Provider
+        value={{ values, setValues, errors, setErrors, validate }}
+      >
         <form onSubmit={handleSubmit} noValidate={true}>
           <div>
             {render()}

@@ -31,7 +31,9 @@ export const Field: React.FC<IFieldProps> = ({
   options,
   value,
 }) => {
-  const { values, setValues, validate, errors } = useContext(FormContext);
+  const { values, setValues, validate, errors, setErrors } = useContext(
+    FormContext
+  );
 
   const getError = (errors: IErrors): string => (errors ? errors[id] : '');
 
@@ -44,6 +46,12 @@ export const Field: React.FC<IFieldProps> = ({
         <p>{getError(errors)}</p>
       </div>
     );
+
+  const clearForm = () => {
+    setValues([]);
+    setErrors({});
+    console.log('Form cleared');
+  };
 
   return (
     <FieldContainer>
